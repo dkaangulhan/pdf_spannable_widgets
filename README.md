@@ -4,10 +4,10 @@ is put on the incoming pagei, this package place the whole paragraph in the same
 
 ## Features
 
-- Spannable widget looks like this.
-  ![spannable widgets](example/images/spannable_widget.png)
-- Non spannable widget that is seperated in different pages.
-  ![spannable widgets](example/images/non_spannable_widget.png)
+  <div display= "flex">
+    <img src="example/images/spannable_widget.png" width="320" height= "540">
+    <img src="example/images/non_spannable_widget.png" width="320" height= "540">
+  </div>
 
 ## Getting started
 

@@ -6,7 +6,6 @@ import 'package:pdf_spannable_widgets/pdf_spannable_widgets.dart';
 
 Future<Uint8List> generatePdf() async {
   PdfSpannableWidgetRepo pdfRepo = PdfSpannableWidgetRepo(
-    pageMargin: pw.EdgeInsets.zero,
     pdfPageFormat: PdfPageFormat.a4,
   );
 

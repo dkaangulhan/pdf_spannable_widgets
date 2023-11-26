@@ -13,24 +13,19 @@ part '_current.dart';
 /// [pageMargin] is pdf package's [EdgeInsets] implementation.
 class PdfSpannableWidgetRepo {
   PdfSpannableWidgetRepo({
-    required pw.EdgeInsets? pageMargin,
     required this.pdfPageFormat,
-    double pageSize = 720.0,
-  })  : _pageMargin = pageMargin,
-        _pageSize = pageSize;
+  });
 
   /// This map is used to keep [PdfSpannableWidget] intances
   /// in order to place these widgets into pdf document.
   final Map<String, PdfSpannableWidgetBase> _map = {};
 
   // pw.Document _pdfDocument;
-  final pw.EdgeInsets? _pageMargin;
   PdfPageFormat pdfPageFormat;
 
   /// height of a pdf page. This controls
   /// when to break widgets into incoming pages.
-  final double _pageSize;
-  double get pageSize => _pageSize;
+  double get pageSize => pdfPageFormat.availableHeight;
 
   final _Current _current = _Current();
 
@@ -155,7 +150,6 @@ class PdfSpannableWidgetRepo {
     pdfDocument.addPage(
       pw.MultiPage(
         pageFormat: pdfPageFormat,
-        margin: _pageMargin,
         build: (context) {
           return _current.getPwWidgets;
         },
