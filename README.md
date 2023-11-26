@@ -23,6 +23,11 @@ Complete example can be found in `/example/example.dart`.
 
 ```dart
 /// ...
+
+PdfSpannableWidgetRepo pdfRepo = PdfSpannableWidgetRepo(
+    pdfPageFormat: PdfPageFormat.a4,
+  );
+
 /// initialize your sample pdf that will calculate
 /// calculate widgets' sizes
 final samplePdf = pw.Document();
