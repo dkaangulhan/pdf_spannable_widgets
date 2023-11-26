@@ -8,24 +8,20 @@ import 'package:pdf_spannable_widgets/src/index.dart';
 
 part '_current.dart';
 
-/// This repo keeps laid out widgets using [PdfMeasurableWidget].
+/// This repo keeps laid out widgets using [PdfSpannableWidget].
 ///
-/// [pdfDocuemnt] is the pdf that will produce the pdf file.
-class PdfMeasurableWidgetRepo {
-  PdfMeasurableWidgetRepo({
-    required EdgeInsets pageMargin,
+/// [pageMargin] is pdf package's [EdgeInsets] implementation.
+class PdfSpannableWidgetRepo {
+  PdfSpannableWidgetRepo({
+    required pw.EdgeInsets? pageMargin,
     required this.pdfPageFormat,
-    this.pageSize = 720.0,
-  }) : _pageMargin = pw.EdgeInsets.only(
-          left: pageMargin.left,
-          top: pageMargin.top,
-          right: pageMargin.right,
-          bottom: pageMargin.bottom,
-        );
+    double pageSize = 720.0,
+  })  : _pageMargin = pageMargin,
+        _pageSize = pageSize;
 
-  /// This map is used to keep [PdfMeasurableWidget] intances
+  /// This map is used to keep [PdfSpannableWidget] intances
   /// in order to place these widgets into pdf document.
-  final Map<String, PdfMeasurableWidgetBase> _map = {};
+  final Map<String, PdfSpannableWidgetBase> _map = {};
 
   // pw.Document _pdfDocument;
   final pw.EdgeInsets? _pageMargin;
@@ -33,7 +29,8 @@ class PdfMeasurableWidgetRepo {
 
   /// height of a pdf page. This controls
   /// when to break widgets into incoming pages.
-  double pageSize;
+  final double _pageSize;
+  double get pageSize => _pageSize;
 
   final _Current _current = _Current();
 
@@ -43,36 +40,36 @@ class PdfMeasurableWidgetRepo {
   //   _pdfDocument = value;
   // }
 
-  /// This adds widgets in [PdfMeasurableWidget] with [key].
+  /// This adds widgets in [PdfSpannableWidget] with [key].
   ///
   /// if [isSubWidget] is true then it is added to [key]'s
   /// value's sub widget list.
-  PdfMeasurableWidgetBase add({
+  PdfSpannableWidgetBase add({
     required String key,
-    required PdfMeasurableWidgetBase pdfMeasurableWidgetBase,
+    required PdfSpannableWidgetBase pdfSpannableWidgetBase,
     bool isSubWidget = false,
   }) {
     if (isSubWidget) {
       final isKeyAvailable = _map[key] != null;
       assert(isKeyAvailable, true);
 
-      _map[key]!.addToSublist(widget: pdfMeasurableWidgetBase);
-      return pdfMeasurableWidgetBase;
+      _map[key]!.addToSublist(widget: pdfSpannableWidgetBase);
+      return pdfSpannableWidgetBase;
     }
 
-    _map[key] = pdfMeasurableWidgetBase;
-    return pdfMeasurableWidgetBase;
+    _map[key] = pdfSpannableWidgetBase;
+    return pdfSpannableWidgetBase;
   }
 
   /// List of values of keys;
-  List<PdfMeasurableWidgetBase> get _measurableWidgetList =>
+  List<PdfSpannableWidgetBase> get _spannableWidgetList =>
       _map.keys.map((e) => _map[e]!).toList();
 
   /// This adds vertical seperation into map structure.
-  PdfMeasurableWidgetBase createVerticalSeperator({required double height}) {
+  PdfSpannableWidgetBase createVerticalSeperator({required double height}) {
     return add(
       key: 'vertical_seperator_${Random().nextInt(100000)}',
-      pdfMeasurableWidgetBase: PdfMeasurableWidget(
+      pdfSpannableWidgetBase: PdfSpannableWidget(
         widget: pw.SizedBox(height: height),
       ),
     );
@@ -83,7 +80,7 @@ class PdfMeasurableWidgetRepo {
   Future<Uint8List> createPdf() async {
     final pdf = pw.Document();
 
-    _widgetLoop(pdfDocument: pdf, list: _measurableWidgetList);
+    _widgetLoop(pdfDocument: pdf, list: _spannableWidgetList);
 
     /// This closes page if widgets added to [Current.currentWidgetList]
     /// but not placed in any page during [widgetLoop].
@@ -97,7 +94,7 @@ class PdfMeasurableWidgetRepo {
   /// This places widgets on pages.
   void _widgetLoop(
       {required pw.Document pdfDocument,
-      required List<PdfMeasurableWidgetBase> list}) {
+      required List<PdfSpannableWidgetBase> list}) {
     /* pseudo
       start loop
        if(widget.size > pageSize)

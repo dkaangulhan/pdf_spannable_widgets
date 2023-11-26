@@ -9,18 +9,18 @@ import 'package:pdf/widgets.dart' as pw;
 ///
 /// [subList] is stuffed when [PdfWidgetRepo.add]'s [isSubWidget]
 /// parameter is true. Read the method's documentation for more info.
-abstract class PdfMeasurableWidgetBase {
+abstract class PdfSpannableWidgetBase {
   pw.Widget get widget;
   PdfPoint? get size {
     return widget.box?.size;
   }
 
-  final List<PdfMeasurableWidgetBase> _subList = [];
-  List<PdfMeasurableWidgetBase> get subList => _subList;
+  final List<PdfSpannableWidgetBase> _subList = [];
+  List<PdfSpannableWidgetBase> get subList => _subList;
 
-  /// if true, there are [PdfMeasurableWidget]s.
+  /// if true, there are [PdfSpannableWidgetBase]s.
   bool get hasSubWidget => _subList.isNotEmpty;
-  void addToSublist({required PdfMeasurableWidgetBase widget}) =>
+  void addToSublist({required PdfSpannableWidgetBase widget}) =>
       _subList.add(widget);
 
   @override
