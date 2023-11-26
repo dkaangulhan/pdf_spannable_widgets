@@ -4,6 +4,9 @@ is put on the incoming pagei, this package place the whole paragraph in the same
 
 ## Features
 
+  Below you can see that in the left image paragraphs don't exceed to other pages.
+  While in the second image, some part of the paragraph is in page 1; other part is
+  in other page.
   <div display= "flex">
     <img src="example/images/spannable_widget.png" width="320" height= "540">
     <img src="example/images/non_spannable_widget.png" width="320" height= "540">
